@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
 {
+    [Serializable]
     public class Merchandise
     {
         public string Name { get; set; } //prop tab twice

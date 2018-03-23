@@ -11,10 +11,12 @@ namespace ConsignmentShopFront
     public partial class WebForm1 : System.Web.UI.Page
     {
         private Shop shop = new Shop();
-        private List<Merchandise> shoppingCartItems = new List<Merchandise>();
+        
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             shop.Name = "Norwegian Jewellery and Loan";
 
             shop.Sellers.Add(new Seller { FirstName = "Robert", LastName = "Ford" });
@@ -54,38 +56,82 @@ namespace ConsignmentShopFront
             });
             if (!IsPostBack)
             {
+
                 ListBoxProducts.DataTextField = "Display";
                 ListBoxProducts.DataValueField = "Display";
 
                 ListBoxProducts.DataSource = shop.Products;
                 ListBoxProducts.DataBind();
-
-                ListBoxShoppingCart.DataTextField = "Display";
-                ListBoxShoppingCart.DataValueField = "Display";
-
-                ListBoxShoppingCart.DataSource = shoppingCartItems;
-                ListBoxShoppingCart.DataBind();
+                
             }
 
         }
 
         protected void ButtonAddToCart_Click(object sender, EventArgs e)
         {
+            bool addItem = true;
+
             //get selected item from product list
             string selectedItem = ListBoxProducts.SelectedItem.Text;
-            //Merchandise selectedItem = (Merchandise) ListBoxProducts.SelectedItem;
             foreach (Merchandise item in shop.Products)  {
-                //ClientScript.RegisterStartupScript(this.GetType(), selectedItem, "alert('" + selectedItem + "');", true);
                 if (selectedItem.Contains(item.Name)) {
                     Merchandise selectedValue = item;
-                    ClientScript.RegisterStartupScript(this.GetType(), selectedValue.Name, "alert('" + selectedItem + "');", true);
-                    //add selected item to cart
-                    shoppingCartItems.Add(selectedValue);
+                    //ClientScript.RegisterStartupScript(this.GetType(), selectedValue.Name, "alert('" + selectedItem + "');", true);
+                    if (ViewState["Shoppingcart"] == null) {
+                        List<Merchandise> itemList = new List<Merchandise>();
+                        
+                        itemList.Add(selectedValue);
+                            
+                        
+                        ViewState["Shoppingcart"] = itemList;
+                    } else
+                    {
+                        List<Merchandise> itemList = (List<Merchandise>)ViewState["Shoppingcart"];
+                        //loop through shopping cart checking for duplicates (becuse this is a consignment shop, there should only be one 
+                        //of each product
+                        foreach (Merchandise temp in itemList.ToList())
+                        {
+                            if (temp.Name.Equals(selectedValue.Name)) {
+                                addItem = false;
+                                
+                            }
+                        }
+                        if (addItem==true)
+                        {
+                            itemList.Add(selectedValue); //Add to cart
+                            addItem = false;
+                        }
+                            
+                        
+                        
+                        
+                    }
+                    List<Merchandise> shoppingCartList = (List<Merchandise>)ViewState["Shoppingcart"];
+                    
+                    ListBoxShoppingCart.DataTextField = "Display";
+                    ListBoxShoppingCart.DataValueField = "Display";
+
+                    ListBoxShoppingCart.DataSource = shoppingCartList;
+                    ListBoxShoppingCart.DataBind();
+                    
                 }
             }
             
-            //remove item? no
+        }
 
+        protected void ButtonBuy_Click(object sender, EventArgs e)
+        {
+            if (ViewState["Shoppingcart"] != null)
+            {
+                List<Merchandise> shoppingCartList = (List<Merchandise>)ViewState["Shoppingcart"];
+
+                foreach (Merchandise merch in shoppingCartList)
+                {
+                    merch.Sold = true;  
+                }
+            }
+            ListBoxShoppingCart.Items.Clear();
+            ViewState.Remove("Shoppingcart");
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsignmentShopLibrary
 {
+    [Serializable]
     public class Seller
     {
         //prop - tab twice

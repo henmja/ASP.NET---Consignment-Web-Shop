@@ -41,7 +41,7 @@
 
     </div>
     <span style="display:inline-block; width: 405px;"></span>
-    <asp:Button ID="ButtonBuy" runat="server" Text="Buy" />
+    <asp:Button ID="ButtonBuy" runat="server" Text="Buy" OnClick="ButtonBuy_Click" />
     </form>
 </body>
 </html>
