@@ -1,6 +1,6 @@
 #Consignment Shop
 
-An ASP.NET Web Application.
+An ASP.NET C# Web Application.
 
 Consignment Shop using Datasource to bind objects to controls and StateView to repopulate the shopping cart listbox on each postback to the server so that it isn't cleared.
 
