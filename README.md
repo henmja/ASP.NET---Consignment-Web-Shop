@@ -8,4 +8,4 @@ The solution contains two projects: ConsignmentShopFront and ConsignmentShopLibr
 ConsignmentShopFront is the front end, and ConsignmentShopLibrary is the back end.
 
 
-![consignmentshop](https://user-images.githubusercontent.com/10501925/37849563-78198ae8-2ed8-11e8-90f3-7c34849bd108.jpg)
+![consignment](https://user-images.githubusercontent.com/10501925/38175179-77a7c9f6-35d8-11e8-80ba-07c3a43b0719.jpg)
